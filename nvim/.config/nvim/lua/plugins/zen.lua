@@ -1,3 +1,8 @@
-require("zen-mode").setup()
+-- require("zen-mode").setup()
 
-vim.keymap.set('n', '<leader>z', '<CMD>ZenMode<CR>')
+return { 
+    'folke/zen-mode.nvim',
+    keys = {
+        { '<leader>z', '<CMD>ZenMode<CR>', desc = 'Zen Mode' },
+    },
+}

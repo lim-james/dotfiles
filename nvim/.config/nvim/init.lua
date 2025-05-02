@@ -1,75 +1,42 @@
-vim.cmd [[
-    call plug#begin()
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-    Plug 'rebelot/kanagawa.nvim'
+-- Load core configuration BEFORE lazy setup
+require("core.globals")
+require("core.options")
+require("core.keymaps")
 
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
-    Plug 'neovim/nvim-lspconfig'
+-- Setup lazy.nvim
+require("lazy").setup("plugins", {
+  -- You can add lazy.nvim options here, e.g.:
+  -- checker = { enabled = true, notify = false }, -- Check for updates daily
+  -- performance = {
+  --   rtp = {
+  --     -- disable some standard plugins
+  --     disabled_plugins = {
+  --       "gzip",
+  --       "matchit",
+  --       "matchparen",
+  --       "netrwPlugin",
+  --       "tarPlugin",
+  --       "tohtml",
+  --       "tutor",
+  --       "zipPlugin",
+  --     },
+  --   },
+  -- },
+})
 
-    Plug 'nvim-lualine/lualine.nvim'
-
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'ms-jpq/coq.nvim', { 'branch': 'coq' }
-    Plug 'ms-jpq/coq.artifacts', { 'branch': 'artifacts' },
-    Plug 'ms-jpq/coq.thirdparty', { 'branch': '3p' }
-
-    Plug 'williamboman/mason.nvim'
-    Plug 'williamboman/mason-lspconfig.nvim'
-
-    Plug 'numToStr/FTerm.nvim'
-
-    Plug 'folke/zen-mode.nvim'
-
-    Plug 'nvim-lua/plenary.nvim' 
-    Plug 'ThePrimeagen/harpoon', { 'branch': 'harpoon2' }
-
-    Plug 'wurli/visimatch.nvim'
-
-    Plug 'christoomey/vim-tmux-navigator'
-    Plug 'folke/flash.nvim'
-
-    call plug#end()
-]]
-
-vim.opt.syntax = 'on'
-vim.opt.termguicolors = true
-
-vim.opt.compatible = false
-vim.opt.showmatch = true
-vim.opt.ignorecase = true
-
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 4
-vim.opt.autoindent = true
-vim.cmd('filetype plugin indent on')
-
-vim.opt.relativenumber = true
-vim.opt.number = true
-
-vim.opt.colorcolumn = '80,100'
-vim.opt.signcolumn = 'yes'
-vim.opt.clipboard = "unnamedplus"
-
-vim.opt.cursorline = true
-vim.opt.ttyfast = true
-vim.opt.swapfile = false
-
-vim.cmd('colorscheme kanagawa-dragon')
-
-vim.g.mapleader = ' '
-vim.keymap.set('n', '<SPACE>', '<NOP>')
-
-require('plugins.telescope')
-require('plugins.lsp')
-require('plugins.treesitter')
-require('plugins.lualine')
-require('plugins.fterm')
-require('plugins.zen')
-require('plugins.harpoon')
-require('plugins.vim-tmux')
-require('plugins.flash')
-require('visimatch').setup()
-
+-- Optional: Anything that *must* run after plugins are loaded
+-- vim.cmd.colorscheme("kanagawa-dragon") -- Already handled by plugin config
