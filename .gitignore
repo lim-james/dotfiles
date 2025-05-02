@@ -1,0 +1,33 @@
+# macOS system files
+.DS_Store
+
+# Vim/Neovim swap and backup files
+*.swp
+*.swo
+*~
+*.un~
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Caches
+.cache/
+__pycache__/
+
+# Node & Python
+node_modules/
+npm-debug.log*
+venv/
+.env
+
+# Dotfile repo-specific ignores
+README.local.md
+notes.txt
+
+# Ignore plugin folders (managed by plugin managers)
+# For tmux (TPM)
+tmux/.config/tmux/plugins/
+
+# For nvim 
+nvim/.local/
