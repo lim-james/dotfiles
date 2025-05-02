@@ -74,12 +74,16 @@ plugins=(
     git
     zsh-autosuggestions
     zsh-syntax-highlighting
-    zsh-vi-mode
+    vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+MODE_INDICATOR=""
+INSERT_MODE_INDICATOR=""
+VI_MODE_SET_CURSOR=true
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
