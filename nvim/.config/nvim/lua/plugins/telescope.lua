@@ -5,7 +5,11 @@ return {
   config = function()
     local telescope = require('telescope')
     local builtin = require('telescope.builtin')
-    local actions = require('telescope.actions') -- Needed for Harpoon integration
+    local actions = require('telescope.actions') 
+    local pickers = require('telescope.pickers')
+    local finders = require('telescope.finders')
+    local action_state = require('telescope.actions.state')
+    local conf = require('telescope.config').values
 
     telescope.setup {}
 
@@ -23,14 +27,13 @@ return {
       return
     end
 
-    local conf = require("telescope.config").values
     local function toggle_telescope_harpoon(harpoon_files)
       local file_paths = {}
       for _, item in ipairs(harpoon_files.items) do
           table.insert(file_paths, item.value)
       end
 
-      require("telescope.pickers").new({}, {
+      pickers.new({}, {
           prompt_title = "Harpoon",
           finder = require("telescope.finders").new_table({
               results = file_paths,

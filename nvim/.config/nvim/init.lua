@@ -12,10 +12,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Load core configuration BEFORE lazy setup
+-- Load core & custom configuration BEFORE lazy setup
 require("core.globals")
 require("core.options")
 require("core.keymaps")
+require("custom.scratch")
+require("custom.markdown")
 
 -- Setup lazy.nvim
 require("lazy").setup("plugins", {
