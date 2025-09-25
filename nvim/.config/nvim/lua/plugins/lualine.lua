@@ -14,8 +14,8 @@ return {
         lualine_a = {'location'},
         lualine_b = { {'filename', path = 1 } }, 
         lualine_c = {},
-        lualine_x = {},
-        lualine_y = {'diff', 'diagnostics'},
+        lualine_x = {'diff', 'diagnostics'},
+        lualine_y = {'encoding'},
         lualine_z = {'branch'}
       },
       inactive_sections = {
@@ -23,7 +23,7 @@ return {
         lualine_b = { {'filename', path = 1 } },
         lualine_c = {},
         lualine_x = {},
-        lualine_y = {},
+        lualine_y = {'encoding'},
         lualine_z = {'branch'}
       },
       tabline = {},
