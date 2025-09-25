@@ -11,7 +11,14 @@ return {
     local action_state = require('telescope.actions.state')
     local conf = require('telescope.config').values
 
-    telescope.setup {}
+    telescope.setup {
+      defaults = {
+        layout_config = {
+          prompt_position = 'top',
+        },
+        sorting_strategy = 'ascending',
+      },
+    }
 
     -- Keymaps
     vim.keymap.set('n', '<leader>p', builtin.find_files, { desc = '[P]roject Find Files' })
