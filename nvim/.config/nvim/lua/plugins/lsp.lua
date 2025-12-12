@@ -105,41 +105,16 @@ return {
     config = function()
       require("mason").setup()
       require("mason-null-ls").setup({
-        ensure_installed = { "checkstyle", "clangd" },
+        ensure_installed = { "clangd" },
         automatic_installation = true,
       })
 
       local null_ls = require("null-ls")
 
-      local cfg_path = vim.fn.expand("config/checkstyle/google_checks.xml")
-      local has_cfg = vim.fn.filereadable(cfg_path) == 1
-
-      local checkstyle_builtin = null_ls.builtins.diagnostics.checkstyle
-      if has_cfg then
-        checkstyle_builtin = checkstyle_builtin.with({
-          extra_args = { "-c", cfg_path },
-        })
-      end
-
       null_ls.setup({
         sources = {
-          checkstyle_builtin,
         },
         on_attach = function(client, bufnr)
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              buffer = bufnr,
-              callback = function()
-                if vim.bo[bufnr].filetype == "java" then
-                  vim.lsp.buf.format({
-                    async = false,
-                    timeout_ms = 2000,
-                    filter = function(c) return c.name == "null-ls" end,
-                  })
-                end
-              end,
-            })
-          end
         end,
       })
     end,
