@@ -18,6 +18,7 @@ require("core.options")
 require("core.keymaps")
 require("custom.scratch")
 require("custom.markdown")
+require("custom.cpp")
 
 -- Setup lazy.nvim
 require("lazy").setup("plugins", {

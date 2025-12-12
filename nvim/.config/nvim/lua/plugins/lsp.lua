@@ -34,10 +34,39 @@ return {
         vim.lsp.buf.format({
           async = false,
           timeout_ms = 2000,
-          -- Prefer none-ls for formatting if available
           filter = function(client) return client.name == "null-ls" end,
         })
-      end, { desc = 'Format buffer (prefer none-ls)' })
+      end, { desc = 'Format buffer (prefer null-ls)' })
+
+      -- Diagnostics display
+      vim.diagnostic.config({
+        virtual_text = false,
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+        float = {
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = "",
+        },
+      })
+
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        callback = function()
+          local diags = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+          if #diags > 0 then
+            -- pick the most severe diagnostic for the current line
+            table.sort(diags, function(a, b)
+              return a.severity < b.severity
+            end)
+            vim.g.current_diag = diags[1].message
+          else
+            vim.g.current_diag = ''
+          end
+        end,
+      })
     end
   },
 
@@ -65,7 +94,7 @@ return {
   { 'ms-jpq/coq.artifacts', branch = 'artifacts', lazy = true },
   { 'ms-jpq/coq.thirdparty', branch = '3p', lazy = true },
 
-  -- ===== none-ls + mason-null-ls (NEW) =====
+  -- ===== none-ls + mason-null-ls =====
   {
     'nvimtools/none-ls.nvim',
     event = "BufReadPre",
@@ -74,16 +103,14 @@ return {
       'jay-babu/mason-null-ls.nvim',
     },
     config = function()
-      -- Ensure tools are installed via Mason
       require("mason").setup()
       require("mason-null-ls").setup({
-        ensure_installed = { "google-java-format", "checkstyle" },
+        ensure_installed = { "checkstyle", "clangd" },
         automatic_installation = true,
       })
 
       local null_ls = require("null-ls")
 
-      -- Resolve optional Checkstyle config if present
       local cfg_path = vim.fn.expand("config/checkstyle/google_checks.xml")
       local has_cfg = vim.fn.filereadable(cfg_path) == 1
 
@@ -96,15 +123,9 @@ return {
 
       null_ls.setup({
         sources = {
-          -- Formatter: google-java-format
-          null_ls.builtins.formatting.google_java_format.with({
-            extra_args = { "--aosp" },
-          }),
-          -- Diagnostics: Checkstyle (uses your config if found)
           checkstyle_builtin,
         },
         on_attach = function(client, bufnr)
-          -- Format-on-save for Java, preferring none-ls
           if client.supports_method("textDocument/formatting") then
             vim.api.nvim_create_autocmd("BufWritePre", {
               buffer = bufnr,
