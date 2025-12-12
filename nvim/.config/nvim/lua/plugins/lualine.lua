@@ -2,6 +2,10 @@ return {
   'nvim-lualine/lualine.nvim',
   event = "VeryLazy",
   config = function()
+    local function current_line_diag()
+      return vim.g.current_diag or ''
+    end
+
     require('lualine').setup {
       options = {
         icons_enabled = false,
@@ -13,7 +17,7 @@ return {
       sections = {
         lualine_a = {'location'},
         lualine_b = { {'filename', path = 1 } }, 
-        lualine_c = {},
+        lualine_c = { current_line_diag },
         lualine_x = {'diff', 'diagnostics'},
         lualine_y = {'encoding'},
         lualine_z = {'branch'}
