@@ -5,6 +5,7 @@ local function scratch_buffer()
   vim.cmd('enew')
   vim.bo.buftype = 'nofile'
   vim.bo.bufhidden = 'wipe'
+  vim.bo.filetype = 'markdown'
   vim.bo.swapfile = false
   vim.cmd('file [Scratch ' .. scratch_id .. ']')
 end
