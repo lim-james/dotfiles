@@ -8,7 +8,7 @@ opt.relativenumber = true   -- Show relative line numbers
 opt.cursorline = true       -- Highlight the current line
 opt.signcolumn = 'yes'      -- Always show the sign column
 opt.showmatch = true        -- Highlight matching brackets
-opt.colorcolumn = '80,100'  -- Show columns at 80 and 100
+opt.colorcolumn = '100,120' -- Show columns at 100 and 120
 opt.ttyfast = true          -- Faster redrawing (might be default now)
 
 -- Behavior
