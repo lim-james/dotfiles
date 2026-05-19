@@ -17,12 +17,12 @@ return {
         print("COQ not found, using default LSP capabilities.")
       end
 
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          require('lspconfig')[server_name].setup({
-            capabilities = capabilities,
-          })
-        end,
+      require("mason-lspconfig").setup({
+        handlers = {
+          function(server_name)
+            require("lspconfig")[server_name].setup({})
+          end,
+        },
       })
 
       -- Keymaps
