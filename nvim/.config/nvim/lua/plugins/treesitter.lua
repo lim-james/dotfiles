@@ -6,7 +6,7 @@ return {
     require('nvim-treesitter.configs').setup {
       ensure_installed = {
         'c', 'json',
-        'lua', 'markdown', 'markdown_inline', 'python',
+        'lua', 'python', 'markdown', 'markdown_inline',
         'query', 'regex', 'vim', 'vimdoc', 'yaml'
       },
       sync_install = false,
@@ -21,7 +21,7 @@ return {
                 return true
             end
         end,
-        additional_vim_regex_highlighting = true, 
+        additional_vim_regex_highlighting = false,
       },
       indent = {
         enable = true,
