@@ -112,9 +112,24 @@ VI_MODE_SET_CURSOR=true
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export JAVA_HOME="$(/usr/libexec/java_home -v 21)"
-export PATH="$JAVA_HOME/bin:$PATH"
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# Created by `pipx` on 2026-05-13 01:22:30
+export PATH="$PATH:/home/bilim/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
+
+watch_test() {
+    local target="root@10.54.17.67"
+    local log_dir="~/james/quali_wpkg/logs_WMPL6506N"
+    
+    while true; do
+        ssh -t "$target" "tail -F \$(ls $log_dir/0*_test.out | grep -vE 'passed|failed' | head -n 1)"
+        echo "Machine is down or test finished. Reconnecting..."
+        sleep 3
+    done
+}
+
+alias dbs='ssh bilim@dbs-sgp-03'
+
+if [ -z "$TMUX" ]; then
+  tmux start-server
+fi
